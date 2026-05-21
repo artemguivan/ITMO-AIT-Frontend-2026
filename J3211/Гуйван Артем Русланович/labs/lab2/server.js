@@ -46,7 +46,7 @@ function normalizeArenaRows(dataframe) {
   })
 }
 
-async function fetchRussianArenaModels() {
+async function fetchArenaModels() {
   const sessionHash = 'agentics_' + Date.now()
   const payload = {
     data: [DEFAULT_CATEGORY, DEFAULT_FILTERS],
@@ -104,7 +104,7 @@ function requireBearerToken(req, res, next) {
 
 app.get('/arenaModels', requireBearerToken, async function (req, res) {
   try {
-    const models = await fetchRussianArenaModels()
+    const models = await fetchArenaModels()
     res.json(models)
   } catch (error) {
     res.status(502).json({
