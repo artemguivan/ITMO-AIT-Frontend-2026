@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход / Регистрация</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif}
+body{background:#2083c0;padding:20px;color:#042C53;min-height:100vh}
+.container{display:grid;place-items:center;min-height:100vh}
+.card{background:#fff3d9;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.12);padding:28px;min-width:300px;max-width:420px;width:100%}
+.brand{font-size:20px;font-weight:700;margin-bottom:6px}
+.lead{color:#234;color:rgba(4,44,83,0.85);margin-bottom:16px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{flex:1;text-align:center;padding:8px 12px;border-radius:10px;cursor:pointer;background:transparent;border:1px solid transparent}
+.tab.active{background:#85B7EB;color:#042C53;border-color:rgba(4,44,83,0.06);font-weight:600}
+.form-part{display:flex;flex-direction:column;gap:10px}
+.input{padding:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+.btn{padding:10px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#042C53;cursor:pointer;font-size:14px}
+.btn-register{background:#85B7EB;color:#042C53;border:none}
+.row{display:flex;gap:10px}
+.links{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px}
+.small{font-size:13px;color:rgba(4,44,83,0.7)}
+.error{display:none;background:#ffdede;color:#7a1111;border-radius:8px;padding:9px;font-size:13px}
+@media (max-width:420px){.card{padding:18px;border-radius:14px}.brand{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="brand">ML Platform</div>
+    <div class="lead">Вход в платформу управления ML-пайплайнами</div>
+    <div class="tabs">
+      <div class="tab active" id="tab-login">Войти</div>
+      <div class="tab" id="tab-register">Регистрация</div>
+    </div>
+    <div id="login-view">
+      <form class="form-part" action="#" id="login-form">
+        <div class="error" id="login-error"></div>
+        <input class="input" type="email" id="login-email" placeholder="Email" required>
+        <input class="input" type="password" id="login-password" placeholder="Пароль" required>
+        <div class="small">Демо-вход: b@mail.ru / 2222 или a@mail.com / 3333</div>
+        <button class="btn btn-register" type="submit">Войти</button>
+        <div class="links">
+          <div class="small">Нет аккаунта? <span style="color:#042C53;cursor:pointer" id="to-register">Зарегистрироваться</span></div>
+          <div><a href="search-page.html" style="text-decoration:none;color:#042C53">Поиск</a></div>
+        </div>
+      </form>
+    </div>
+    <div id="register-view" style="display:none">
+      <form class="form-part" action="#" id="register-form">
+        <div class="error" id="register-error"></div>
+        <input class="input" type="text" id="register-name" placeholder="Имя" required>
+        <input class="input" type="email" id="register-email" placeholder="Email" required>
+        <input class="input" type="password" id="register-password" placeholder="Пароль" required>
+        <div class="row">
+          <button class="btn btn-register" type="submit">Зарегистрироваться</button>
+          <button class="btn" type="button" id="to-login">Отмена</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="api.js"></script>
+<script>
+function showError(id, message) {
+  const element = document.getElementById(id)
+  element.textContent = message
+  element.style.display = 'block'
+}
+
+document.getElementById('tab-login').addEventListener('click',function(){document.getElementById('login-view').style.display='block';document.getElementById('register-view').style.display='none';this.classList.add('active');document.getElementById('tab-register').classList.remove('active')})
+document.getElementById('tab-register').addEventListener('click',function(){document.getElementById('login-view').style.display='none';document.getElementById('register-view').style.display='block';this.classList.add('active');document.getElementById('tab-login').classList.remove('active')})
+document.getElementById('to-register').addEventListener('click',function(){document.getElementById('tab-register').click()})
+document.getElementById('to-login').addEventListener('click',function(){document.getElementById('tab-login').click()})
+
+document.getElementById('login-form').addEventListener('submit', async function(event) {
+  event.preventDefault()
+
+  try {
+    const result = await request('/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: document.getElementById('login-email').value,
+        password: document.getElementById('login-password').value
+      })
+    })
+
+    saveSession(result.accessToken, result.user)
+    location.href = 'user.html'
+  } catch (error) {
+    showError('login-error', 'Не удалось войти: ' + error.message)
+  }
+})
+
+document.getElementById('register-form').addEventListener('submit', async function(event) {
+  event.preventDefault()
+
+  try {
+    const result = await request('/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: document.getElementById('register-name').value,
+        email: document.getElementById('register-email').value,
+        password: document.getElementById('register-password').value
+      })
+    })
+
+    saveSession(result.accessToken, result.user)
+    location.href = 'user.html'
+  } catch (error) {
+    showError('register-error', 'Не удалось зарегистрироваться: ' + error.message)
+  }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "b@mail.ru",
+      "password": "$2a$10$zdVBCPVJDN/D0iaFLNDFo.Rjk.aueEYxkFxqVuUwtHrn0ToinMXoC",
+      "name": "Demo User"
+    },
+    {
+      "id": 2,
+      "email": "a@mail.com",
+      "password": "$2a$10$Exg4pDqWDCE9lE.TtpdtqugFX5dZIQlZGc9UE5dzFX0iSJRTVuMZW",
+      "name": "Test User"
+    },
+    {
+      "email": "ab@gmal.com",
+      "password": "$2a$10$K7KsbtM0ROOWYscnXUhzF.PwpSZPiHyaF32F0memzCypK7qGRTYFK",
+      "name": "artem",
+      "id": 3
+    }
+  ],
+  "experiments": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "GRPO-LR-0.00003-2026-10-10 1",
+      "model": "qwen3-0.6b",
+      "metric": 0.92,
+      "metricName": "accuracy",
+      "date": "2026-10-10",
+      "time": "12:40",
+      "duration": "38m",
+      "dataset": "agent-dialogs-v1",
+      "status": "done",
+      "tags": [
+        "grpo",
+        "baseline"
+      ],
+      "artifacts": [
+        "policy.pt",
+        "metrics.json"
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "name": "DPO-default-2026-10-10 1",
+      "model": "qwen3-0.6b",
+      "metric": 0.82,
+      "metricName": "accuracy",
+      "date": "2026-10-10",
+      "time": "15:05",
+      "duration": "31m",
+      "dataset": "agent-dialogs-v1",
+      "status": "done",
+      "tags": [
+        "dpo",
+        "default"
+      ],
+      "artifacts": [
+        "adapter.safetensors",
+        "logs.txt"
+      ]
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "name": "SFT-clean-data-2026-10-11 1",
+      "model": "llama3.2-1b",
+      "metric": 0.88,
+      "metricName": "accuracy",
+      "date": "2026-10-11",
+      "time": "10:20",
+      "duration": "44m",
+      "dataset": "clean-agent-prompts",
+      "status": "done",
+      "tags": [
+        "sft",
+        "clean-data"
+      ],
+      "artifacts": [
+        "checkpoint-1200",
+        "metrics.json"
+      ]
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "name": "GRPO-reward-v2-2026-10-12 1",
+      "model": "qwen3-1.7b",
+      "metric": 0.95,
+      "metricName": "accuracy",
+      "date": "2026-10-12",
+      "time": "18:10",
+      "duration": "52m",
+      "dataset": "arena-preferences-v2",
+      "status": "done",
+      "tags": [
+        "grpo",
+        "reward-v2"
+      ],
+      "artifacts": [
+        "reward-model.pt",
+        "policy.pt",
+        "chart.png"
+      ]
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "name": "DPO-hard-negatives-2026-10-13 1",
+      "model": "mistral-7b",
+      "metric": 0.9,
+      "metricName": "accuracy",
+      "date": "2026-10-13",
+      "time": "09:15",
+      "duration": "1h 08m",
+      "dataset": "hard-negatives-v3",
+      "status": "done",
+      "tags": [
+        "dpo",
+        "hard-negatives"
+      ],
+      "artifacts": [
+        "adapter.safetensors",
+        "eval.csv"
+      ]
+    }
+  ]
+}
